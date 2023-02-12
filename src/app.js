@@ -6,73 +6,11 @@ const port=process.env.PORT || 5000
 
 app.use(express.json())
 
+const studentRouter = require("./router/student")
+app.use(studentRouter)
+
 app.get("/",(req,res)=>{
     res.send("hello")
-})
-
-app.post("/students",async(req,res)=>{
-    try{
-        // console.log(req.body)
-        const user = new Student(req.body) 
-        const createUser = await user.save()
-        res.status(201).send(createUser)
-        // res.send("Hello User")
-    }catch(e){
-        res.status(400).send('Cached Error')
-    }
-})
-
-// GET all student data
-app.get("/students",async(req,res)=>{
-    try{
-        const studentsData = await Student.find()
-        res.send(studentsData)
-    }catch(e){
-        res.send(e)
-    }
-})
-
-// GET the individual Student data using id
-
-app.get("/students/:id",async(req,res)=>{
-    try{
-        const _id = req.params.id
-        const studentData = await Student.findById(_id)
-        if(!studentData){
-            return res.status(404).send('Unable to login')
-        }else{
-            res.send(studentData)
-        }
-    }catch(e){
-        res.status(500).send(e)
-    }
-})
-
-// Update the Students by it id
-
-app.patch("/students/:id",async(req,res)=>{
-    try{
-        const _id = req.params.id
-        const updateStudent = await Student.findByIdAndUpdate(_id,req.body,{
-            new:true
-        })
-        res.send(updateStudent)
-    }catch(e){
-        res.status(400).send(e)
-    }
-})
-
-// Delete the student by it id
-app.delete("/students/:id",async(req,res)=>{
-    try{
-        const deleteStudent = await Student.findByIdAndDelete(req.params.id)
-        if(!req.params.id){
-            return res.status(400).send()
-        }
-        res.send(deleteStudent)
-    }catch(e){
-        res.status(500).send(e)
-    }
 })
 
 app.listen(port,()=>{
