@@ -22,6 +22,31 @@ app.post("/students",async(req,res)=>{
     }
 })
 
+app.get("/students",async(req,res)=>{
+    try{
+        const studentsData = await Student.find()
+        res.send(studentsData)
+    }catch(e){
+        res.send(e)
+    }
+})
+
+// GET the individual Student data using id
+
+app.get("/students/:id",async(req,res)=>{
+    try{
+        const _id = req.params.id
+        const studentData = await Student.findById(_id)
+        if(!studentData){
+            return res.status(404).send('Unable to login')
+        }else{
+            res.send(studentData)
+        }
+    }catch(e){
+        res.status(400).send(e)
+    }
+})
+
 
 app.listen(port,()=>{
     console.log('http://localhost:'+port)
