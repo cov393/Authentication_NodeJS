@@ -43,7 +43,7 @@ app.get("/students/:id",async(req,res)=>{
             res.send(studentData)
         }
     }catch(e){
-        res.status(400).send(e)
+        res.status(500).send(e)
     }
 })
 
